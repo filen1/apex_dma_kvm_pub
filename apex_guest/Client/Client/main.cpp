@@ -64,6 +64,7 @@ uint64_t g_Base = 0; //write
 float max_dist = 3800.0f * 40.0f; //read //Max Distance of ESP 3800 is full map
 float smooth = 110.0f; //Min 100 for safe aimbotting
 float max_fov = 15.0f; //15 is the sweetspot for 1080p
+int localknock = 0;
 // Dynamic Fov
 float dynamicfov = 10;
 float dynamicfovmax = 15.0f;
@@ -109,28 +110,28 @@ bool mapradartest = false;
 bool lightbackpack = false;
 bool medbackpack = false;
 bool heavybackpack = false;
-bool shieldupgrade = false;
-bool shieldupgradehead = false;
+bool bodyshield = false;
+bool helmet = false;
 bool accelerant = false;
 bool phoenix = false;
 bool healthlarge = false;
 bool healthsmall = false;
-bool shieldbattsmall = false;
-bool shieldbattlarge = false;
+bool shieldsmall = false;
+bool shieldlarge = false;
 bool ammosniper = false;
-bool ammohc = false;
+bool ammoheavy = false;
 bool optic = false;
-bool ammosc = false;
-bool ammonrg = false;
+bool ammolight = false;
+bool ammoenergy = false;
 bool ammoshotgun = false;
 bool lasersight = false;
 bool magsniper = false;
 bool magenergy = false;
 bool stocksniper = false;
 bool stockregular = false;
-bool shielddown = false;
-bool lightammomag = false;
-bool heavyammomag = false;
+bool knockdownshield = false;
+bool maglight = false;
+bool magheavy = false;
 bool optic2x = false;
 bool opticholo1x = false;
 bool opticsniper6x = false;
@@ -141,7 +142,7 @@ bool opticthreat = false;
 bool optic3x = false;
 bool opticholo1x2x = false;
 bool suppressor = false;
-bool weaponmod = false;
+bool hopup = false;
 bool grenade_frag = false;
 bool grenade_arc_star = false;
 bool grenade_thermite = false;
@@ -172,7 +173,6 @@ bool weapon_re45 = false;
 bool weapon_sentinel = false;
 bool weapon_bow = false;
 bool weapon_3030_repeater = false;
-bool weapon_rampage = false;
 bool weapon_car_smg = false;
 bool weapon_nemesis = false;
 bool weapon_rampage_lmg = false;
@@ -191,7 +191,7 @@ int allied_spectators = 0; //write
 bool valid = true; //write
 bool next2 = true; //read write
 
-uint64_t add[1010];
+uint64_t add[110];
 
 bool k_f5 = 0;
 bool k_f6 = 0;
@@ -421,28 +421,28 @@ int main(int argc, char** argv)
 	add[22] = (uintptr_t)&lightbackpack;
 	add[23] = (uintptr_t)&medbackpack;
 	add[24] = (uintptr_t)&heavybackpack;
-	add[25] = (uintptr_t)&shieldupgrade;
-	add[26] = (uintptr_t)&shieldupgradehead;
+	add[25] = (uintptr_t)&bodyshield;
+	add[26] = (uintptr_t)&helmet;
 	add[27] = (uintptr_t)&accelerant;
 	add[28] = (uintptr_t)&phoenix;
 	add[29] = (uintptr_t)&healthlarge;
 	add[30] = (uintptr_t)&healthsmall;
-	add[31] = (uintptr_t)&shieldbattsmall;
-	add[32] = (uintptr_t)&shieldbattlarge;
+	add[31] = (uintptr_t)&shieldsmall;
+	add[32] = (uintptr_t)&shieldlarge;
 	add[33] = (uintptr_t)&ammosniper;
-	add[34] = (uintptr_t)&ammohc;
+	add[34] = (uintptr_t)&ammoheavy;
 	add[35] = (uintptr_t)&optic;
-	add[36] = (uintptr_t)&ammosc;
-	add[37] = (uintptr_t)&ammonrg;
+	add[36] = (uintptr_t)&ammolight;
+	add[37] = (uintptr_t)&ammoenergy;
 	add[38] = (uintptr_t)&ammoshotgun;
 	add[39] = (uintptr_t)&lasersight;
 	add[40] = (uintptr_t)&magsniper;
 	add[41] = (uintptr_t)&magenergy;
 	add[42] = (uintptr_t)&stocksniper;
 	add[43] = (uintptr_t)&stockregular;
-	add[44] = (uintptr_t)&shielddown;
-	add[45] = (uintptr_t)&lightammomag;
-	add[46] = (uintptr_t)&heavyammomag;
+	add[44] = (uintptr_t)&knockdownshield;
+	add[45] = (uintptr_t)&maglight;
+	add[46] = (uintptr_t)&magheavy;
 	add[47] = (uintptr_t)&optic2x;
 	add[48] = (uintptr_t)&opticholo1x;
 	add[49] = (uintptr_t)&opticholo1x2x;
@@ -453,7 +453,7 @@ int main(int argc, char** argv)
 	add[54] = (uintptr_t)&opticsniper4x8x;
 	add[55] = (uintptr_t)&opticsniperthreat;
 	add[56] = (uintptr_t)&suppressor;
-	add[57] = (uintptr_t)&weaponmod;
+	add[57] = (uintptr_t)&hopup;
 	add[58] = (uintptr_t)&grenade_frag;
 	add[59] = (uintptr_t)&grenade_arc_star;
 	add[60] = (uintptr_t)&grenade_thermite;
@@ -484,7 +484,7 @@ int main(int argc, char** argv)
 	add[85] = (uintptr_t)&weapon_sentinel;
 	add[86] = (uintptr_t)&weapon_bow;
 	add[87] = (uintptr_t)&weapon_3030_repeater;
-	add[88] = (uintptr_t)&weapon_rampage;
+	add[88] = (uintptr_t)&weapon_rampage_lmg;
 	add[89] = (uintptr_t)&weapon_car_smg;
 	add[90] = (uintptr_t)&aimdist;
 	add[91] = (uintptr_t)&itemglowbrightness;
@@ -500,14 +500,14 @@ int main(int argc, char** argv)
 	add[99] = (uintptr_t)&smoothpred2;
 	add[100] = (uintptr_t)&weapon_nemesis;
 	add[101] = (uintptr_t)&mapradartest;
-	add[102] = (uintptr_t)&weapon_rampage_lmg;
-	add[103] = (uintptr_t)&snipereq;
-	add[104] = (uintptr_t)&bowheadshotmode;
-	add[105] = (uintptr_t)&veltest;
-	add[106] = (uintptr_t)&PlayerLocalTeamID;
-	add[107] = (uintptr_t)&TDMToggle;
-	add[108] = (uintptr_t)&EntTeam;
-	add[109] = (uintptr_t)&LocTeam;
+	add[102] = (uintptr_t)&snipereq;
+	add[103] = (uintptr_t)&bowheadshotmode;
+	add[104] = (uintptr_t)&veltest;
+	add[105] = (uintptr_t)&PlayerLocalTeamID;
+	add[106] = (uintptr_t)&TDMToggle;
+	add[107] = (uintptr_t)&EntTeam;
+	add[108] = (uintptr_t)&LocTeam;
+	add[109] = (uintptr_t)&localknock;
 	
 	
 
@@ -577,28 +577,28 @@ int main(int argc, char** argv)
 				config >> lightbackpack;
 				config >> medbackpack;
 				config >> heavybackpack;
-				config >> shieldupgrade;
-				config >> shieldupgradehead;
+				config >> bodyshield;
+				config >> helmet;
 				config >> accelerant;
 				config >> phoenix;
 				config >> healthlarge;
 				config >> healthsmall;
-				config >> shieldbattsmall;
-				config >> shieldbattlarge;
+				config >> shieldsmall;
+				config >> shieldlarge;
 				config >> ammosniper;
-				config >> ammohc;
+				config >> ammoheavy;
 				config >> optic;
-				config >> ammosc;;
-				config >> ammonrg;
+				config >> ammolight;;
+				config >> ammoenergy;
 				config >> ammoshotgun;
 				config >> lasersight;;
 				config >> magsniper;
 				config >> magenergy;
 				config >> stocksniper;
 				config >> stockregular;
-				config >> shielddown;
-				config >> lightammomag;
-				config >> heavyammomag;
+				config >> knockdownshield;
+				config >> maglight;
+				config >> magheavy;
 				config >> optic2x;
 				config >> opticholo1x;
 				config >> opticsniper6x;
@@ -610,7 +610,7 @@ int main(int argc, char** argv)
 				config >> opticholo1x2x;
 
 				config >> suppressor;
-				config >> weaponmod;
+				config >> hopup;
 				config >> grenade_frag;
 				config >> grenade_arc_star;
 				config >> grenade_thermite;
@@ -641,7 +641,7 @@ int main(int argc, char** argv)
 				config >> weapon_sentinel;
 				config >> weapon_bow;
 				config >> weapon_3030_repeater;
-				config >> weapon_rampage;
+				config >> weapon_rampage_lmg;
 				config >> weapon_car_smg;
 				config >> toggleaim;
 				config >> toggleaim2;

@@ -372,7 +372,7 @@ float CalculateFov(Entity& from, Entity& target)
 
 extern float deltaTime;
 
-QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
+QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov, float smooth)
 {
 	Entity target = getEntity(t);
 	if(firing_range)
